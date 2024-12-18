@@ -57,6 +57,8 @@ github.com/hashicorp/golang-lru v1.0.2 h1:dV3g9Z/unq5DpblPpw+Oqcv4dU/1omnb4Ok8iP
 github.com/hashicorp/golang-lru v1.0.2/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
 github.com/iufansh/iuplugins v0.0.0-20241218073659-eab66f8691e8 h1:jD+OkqZIVD6zkyDXePFKAkEYOgUkq9UcQK8yma/aIQs=
 github.com/iufansh/iuplugins v0.0.0-20241218073659-eab66f8691e8/go.mod h1:Fm0a82aF8j6YAlpfWx5mwtjIo6qDRgvzEhMeKogj7Ns=
+github.com/iufansh/iuplugins v0.0.0-20241218131452-751ca41695ae h1:GEyo9PRpKcnPUmgxi/HV8RR16xadKJoh0a8+LaYTAxI=
+github.com/iufansh/iuplugins v0.0.0-20241218131452-751ca41695ae/go.mod h1:Fm0a82aF8j6YAlpfWx5mwtjIo6qDRgvzEhMeKogj7Ns=
 github.com/iufansh/iutils v0.0.0-20241218062802-3ba9a4f95a94 h1:94qdMi67sN86rFpIThsTldxfvXMYIuCuXyksqNmH2x4=
 github.com/iufansh/iutils v0.0.0-20241218062802-3ba9a4f95a94/go.mod h1:JfpJwHpBmK7pnK3DCC8AZijq1LgEMClRck5mauP0zQg=
 github.com/jmespath/go-jmespath v0.4.0 h1:BEgLn5cpjn8UN1mAw4NjwDrS35OdebyEtFe+9YPoQUg=

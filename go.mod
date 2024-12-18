@@ -8,7 +8,7 @@ require (
 	github.com/go-pay/crypto v0.0.1
 	github.com/go-pay/gopay v1.5.100
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/iufansh/iuplugins v0.0.0-20241218073659-eab66f8691e8
+	github.com/iufansh/iuplugins v0.0.0-20241218131452-751ca41695ae
 	github.com/iufansh/iutils v0.0.0-20241218062802-3ba9a4f95a94
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/pkg/errors v0.9.1
