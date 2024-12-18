@@ -52,7 +52,8 @@ func (c *SiteConfigIndexController) Get() {
 	c.Data["urlSiteConfigAddGet"] = c.URLFor("SiteConfigAddController.Get")
 	c.Data["urlSiteConfigEditGet"] = c.URLFor("SiteConfigEditController.Get")
 
-	if t, err := template.New("tplSiteConfigIndex.tpl").Funcs(map[string]interface{}{
+	if t, err := template.New("tplSiteConfigIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date":                 web.Date,
 		"getSiteConfigCodeMap": utils.GetSiteConfigCodeMap,
 	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
@@ -99,7 +100,7 @@ func (c *SiteConfigAddController) Get() {
 	c.Data["urlSiteConfigIndexGet"] = c.URLFor("SiteConfigIndexController.Get")
 	c.Data["urlSiteConfigAddPost"] = c.URLFor("SiteConfigAddController.Post")
 
-	if t, err := template.New("tplAddSiteConfig.tpl").Funcs(map[string]interface{}{
+	if t, err := template.New("tplAddSiteConfig.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
 		"getSiteConfigCodeMap": utils.GetSiteConfigCodeMap,
 	}).Parse(tplAdd); err != nil {
 		logs.Error("template Parse err", err)
@@ -165,7 +166,7 @@ func (c *SiteConfigEditController) Get() {
 		c.Data["urlSiteConfigIndexGet"] = c.URLFor("SiteConfigIndexController.Get")
 		c.Data["urlSiteConfigEditPost"] = c.URLFor("SiteConfigEditController.Post")
 
-		if t, err := template.New("tplEditSiteConfig.tpl").Funcs(map[string]interface{}{
+		if t, err := template.New("tplEditSiteConfig.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
 			"getSiteConfigCodeMap": utils.GetSiteConfigCodeMap,
 		}).Parse(tplEdit); err != nil {
 			logs.Error("template Parse err", err)

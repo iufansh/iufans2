@@ -67,7 +67,12 @@ func (c *OrganizationIndexController) Get() {
 	c.Data["urlAdminIndexGet"] = c.URLFor("AdminIndexController.Get")
 	c.Data["urlIpListIndexGet"] = c.URLFor("IpListIndexController.Get")
 
-	if t, err := template.New("tplIndexOrg.tpl").Parse(tplOrgIndex); err != nil {
+	if t, err := template.New("tplIndexOrg.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+		"formatAmount": func(a int64) string {
+			return strconv.FormatFloat(float64(a)/100, 'f', 2, 64)
+		},
+	}).Parse(tplOrgIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -190,7 +195,9 @@ func (c *OrganizationEditController) Get() {
 	c.Data["urlOrgIndexGet"] = c.URLFor("OrganizationIndexController.Get")
 	c.Data["urlOrgEditPost"] = c.URLFor("OrganizationEditController.Post")
 
-	if t, err := template.New("tplEditOrg.tpl").Parse(tplOrgEdit); err != nil {
+	if t, err := template.New("tplEditOrg.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplOrgEdit); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)

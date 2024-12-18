@@ -46,7 +46,10 @@ func (c *PaymentConfigIndexController) Get() {
 	// 返回值
 	c.Data["dataList"] = &list
 
-	if t, err := template.New("tplIndexPaymentConfig.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplIndexPaymentConfig.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date":   web.Date,
+		"urlfor": web.URLFor,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -111,14 +114,18 @@ func (c *PaymentConfigAddController) Get() {
 	c.Data["data"] = PaymentConfig{PayType: payType}
 	if payType == utils.PayTypeWechatPay {
 		c.Data["vo"] = WechatVo{}
-		if t, err := template.New("tplAddWechatpay.tpl").Parse(tplAddWechatpay); err != nil {
+		if t, err := template.New("tplAddWechatpay.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+			"urlfor": web.URLFor,
+		}).Parse(tplAddWechatpay); err != nil {
 			logs.Error("template Parse err", err)
 		} else {
 			t.Execute(c.Ctx.ResponseWriter, c.Data)
 		}
 	} else {
 		c.Data["vo"] = AlipayVo{}
-		if t, err := template.New("tplAddAlipay.tpl").Parse(tplAddAlipay); err != nil {
+		if t, err := template.New("tplAddAlipay.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+			"urlfor": web.URLFor,
+		}).Parse(tplAddAlipay); err != nil {
 			logs.Error("template Parse err", err)
 		} else {
 			t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -210,13 +217,17 @@ func (c *PaymentConfigEditController) Get() {
 		c.Data["data"] = &model
 		c.Data["vo"] = vo
 		if model.PayType == utils.PayTypeWechatPay {
-			if t, err := template.New("tplEditWechatpay.tpl").Parse(tplEditWechatpay); err != nil {
+			if t, err := template.New("tplEditWechatpay.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+				"urlfor": web.URLFor,
+			}).Parse(tplEditWechatpay); err != nil {
 				logs.Error("template Parse err", err)
 			} else {
 				t.Execute(c.Ctx.ResponseWriter, c.Data)
 			}
 		} else {
-			if t, err := template.New("tplEditAlipay.tpl").Parse(tplEditAlipay); err != nil {
+			if t, err := template.New("tplEditAlipay.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+				"urlfor": web.URLFor,
+			}).Parse(tplEditAlipay); err != nil {
 				logs.Error("template Parse err", err)
 			} else {
 				t.Execute(c.Ctx.ResponseWriter, c.Data)

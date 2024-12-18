@@ -200,6 +200,8 @@ func (c *BaseIndexController) Get() {
 	c.Data["siteName"] = GetSiteConfigValue(utils.Scname)
 
 	if t, err := template.New("tplBaseIndex.tpl").Funcs(map[string]interface{}{
+		"date":   web.Date,
+		"urlfor": web.URLFor,
 		"substr": web.Substr,
 	}).Parse(tplBase); err != nil {
 		logs.Error("template Parse err", err)

@@ -41,7 +41,9 @@ func (c *GiftIndexController) Get() {
 	c.Data["urlGiftAddGet"] = c.URLFor("GiftAddController.Get")
 	c.Data["urlGiftEditGet"] = c.URLFor("GiftEditController.Get")
 
-	if t, err := template.New("tplGiftIndex.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplGiftIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -84,7 +86,9 @@ func (c *GiftAddController) NestPrepare() {
 func (c *GiftAddController) Get() {
 	c.Data["urlGiftIndexGet"] = c.URLFor("GiftIndexController.Get")
 	c.Data["urlGiftAddPost"] = c.URLFor("GiftAddController.Post")
-	if t, err := template.New("tplAddGift.tpl").Parse(tplAdd); err != nil {
+	if t, err := template.New("tplAddGift.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"urlfor": web.URLFor,
+	}).Parse(tplAdd); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)

@@ -50,7 +50,7 @@ func (c *LoginController) Get() {
 		tpl = tplLoginV1
 	}
 
-	if t, err := template.New("tplLogin.tpl").Funcs(map[string]interface{}{
+	if t, err := template.New("tplLogin.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
 		"create_captcha": GetCpt().CreateCaptchaHTML,
 	}).Parse(tpl); err != nil {
 		logs.Error("template Parse err", err)

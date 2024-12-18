@@ -35,7 +35,9 @@ func (c *InformationIndexController) Get() {
 	c.Data["urlInformationAddGet"] = c.URLFor("InformationAddController.Get")
 	c.Data["urlInformationEditGet"] = c.URLFor("InformationEditController.Get")
 
-	if t, err := template.New("tplInformationIndex.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplInformationIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -134,7 +136,9 @@ func (c *InformationEditController) Get() {
 	c.Data["urlInformationIndexGet"] = c.URLFor("InformationIndexController.Get")
 	c.Data["urlInformationEditPost"] = c.URLFor("InformationEditController.Post")
 
-	if t, err := template.New("tplEditInformation.tpl").Parse(tplEdit); err != nil {
+	if t, err := template.New("tplEditInformation.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplEdit); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)

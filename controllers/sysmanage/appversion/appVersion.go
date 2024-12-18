@@ -40,7 +40,9 @@ func (c *AppVersionIndexController) Get() {
 	c.Data["urlAppVersionAddGet"] = c.URLFor("AppVersionAddController.Get")
 	c.Data["urlAppVersionEditGet"] = c.URLFor("AppVersionEditController.Get")
 
-	if t, err := template.New("tplAppVersionIndex.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplAppVersionIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -84,7 +86,9 @@ func (c *AppVersionAddController) Get() {
 	c.Data["urlAppVersionIndexGet"] = c.URLFor("AppVersionIndexController.Get")
 	c.Data["urlAppVersionAddPost"] = c.URLFor("AppVersionAddController.Post")
 	c.Data["appChannel"] = ""
-	if t, err := template.New("tplAddAppVersion.tpl").Parse(tplAdd); err != nil {
+	if t, err := template.New("tplAddAppVersion.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"urlfor": web.URLFor,
+	}).Parse(tplAdd); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -147,7 +151,10 @@ func (c *AppVersionEditController) Get() {
 	c.Data["urlAppVersionIndexGet"] = c.URLFor("AppVersionIndexController.Get")
 	c.Data["urlAppVersionEditPost"] = c.URLFor("AppVersionEditController.Post")
 
-	if t, err := template.New("tplEditAppVersion.tpl").Parse(tplEdit); err != nil {
+	if t, err := template.New("tplEditAppVersion.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date":   web.Date,
+		"urlfor": web.URLFor,
+	}).Parse(tplEdit); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)

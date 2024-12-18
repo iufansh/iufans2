@@ -11,6 +11,7 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
 )
 
 type MemberSuggestIndexController struct {
@@ -40,7 +41,9 @@ func (c *MemberSuggestIndexController) Get() {
 	c.Data["urlMemberSuggestIndexGet"] = c.URLFor("MemberSuggestIndexController.Get")
 	c.Data["urlMemberSuggestStatus"] = c.URLFor("MemberSuggestIndexController.Status")
 
-	if t, err := template.New("tplIndexMemberSuggest.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplIndexMemberSuggest.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)

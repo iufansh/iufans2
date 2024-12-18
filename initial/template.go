@@ -2,7 +2,6 @@ package initial
 
 import (
 	"strconv"
-	"time"
 
 	"github.com/beego/beego/v2/server/web"
 	"github.com/iufansh/iufans2/utils"
@@ -18,22 +17,7 @@ func InitSysTemplateFunc() {
 	web.AddFuncMap("numberMinus", numberMinus)
 	web.AddFuncMap("formatAmount", formatAmount)
 	web.AddFuncMap("list2Map", utils2.List2Map)
-	web.AddFuncMap("date", formatDate)
-	web.AddFuncMap("urlfor", web.URLFor)
 	utils.InitCaptcha()
-}
-
-// 自定义 Date 函数
-func formatDate(t time.Time, format string) string {
-    // 替换 Beego 风格的格式为标准库格式
-    format = strings.ReplaceAll(format, "Y", "2006")
-    format = strings.ReplaceAll(format, "m", "01")
-    format = strings.ReplaceAll(format, "d", "02")
-    format = strings.ReplaceAll(format, "H", "15")
-    format = strings.ReplaceAll(format, "i", "04")
-    format = strings.ReplaceAll(format, "s", "05")
-
-    return t.Format(format)
 }
 
 // 整数相减

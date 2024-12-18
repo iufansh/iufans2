@@ -35,7 +35,9 @@ func (c *NormalQuestionIndexController) Get() {
 	c.Data["urlNormalQuestionAddGet"] = c.URLFor("NormalQuestionAddController.Get")
 	c.Data["urlNormalQuestionEditGet"] = c.URLFor("NormalQuestionEditController.Get")
 
-	if t, err := template.New("tplNormalQuestionIndex.tpl").Parse(tplIndex); err != nil {
+	if t, err := template.New("tplNormalQuestionIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplIndex); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
@@ -132,7 +134,9 @@ func (c *NormalQuestionEditController) Get() {
 	c.Data["urlNormalQuestionIndexGet"] = c.URLFor("NormalQuestionIndexController.Get")
 	c.Data["urlNormalQuestionEditPost"] = c.URLFor("NormalQuestionEditController.Post")
 
-	if t, err := template.New("tplEditNormalQuestion.tpl").Parse(tplEdit); err != nil {
+	if t, err := template.New("tplEditNormalQuestion.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
+		"date": web.Date,
+	}).Parse(tplEdit); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		t.Execute(c.Ctx.ResponseWriter, c.Data)
