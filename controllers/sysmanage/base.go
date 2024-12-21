@@ -199,7 +199,7 @@ func (c *BaseIndexController) Get() {
 	c.Data["static_url"] = staticUrl
 	c.Data["siteName"] = GetSiteConfigValue(utils.Scname)
 
-	if t, err := template.New("tplBaseIndex.tpl").Funcs(map[string]interface{}{
+	if t, err := template.New("tplBaseIndex.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
 		"date":   web.Date,
 		"urlfor": web.URLFor,
 		"substr": web.Substr,
