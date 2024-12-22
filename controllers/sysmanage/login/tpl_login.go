@@ -55,17 +55,11 @@ var tplLogin = `
             </div>
             <div class="right">
 				<form class="layui-form login-form form" action="{{.urlLoginPost}}" method="post">
-					{{ .xsrfdata }}
 					<label for="username">用户名</label>
 					<input type="text" name="username" id="username" required lay-verify="required" value="{{.username}}">
 					<label for="pwd">密码</label>
 					<input type="hidden" name="password" id="password">
 					<input type="password" id="psw" required lay-verify="required" value="{{.pass}}">
-					<label for="captcha">验证码</label>
-					<div class="captcha-item">
-						<input type="text" name="captcha" id="captcha" required lay-verify="required" class="captcha-input" value="{{.captchaValue}}">
-						<div class="login-captcha">{{create_captcha}}</div>
-					</div>
 					<button id="submit" lay-submit lay-filter="login">登录</button>
 				</form>
             </div>
@@ -82,6 +76,26 @@ var tplLogin = `
             {{if .msg}}
                 layer.msg({{.msg}});
             {{end}}
+
+    		var ajax = $.ajax;
+			$.extend({
+					ajax: function(url, options) {
+						if (typeof url === 'object') {
+							options = url;
+							url = undefined;
+						}
+						options = options || {};
+						url = options.url;
+						var xsrftoken = $('meta[name=_xsrf]').attr('content');
+						var headers = options.headers || {};
+						var domain = document.domain.replace(/\./ig, '\\.');
+						if (!/^(http:|https:).*/.test(url) || eval('/^(http:|https:)\\/\\/(.+\\.)*' + domain + '.*/').test(url)) {
+							headers = $.extend(headers, {'X-Xsrftoken':xsrftoken});
+						}
+						options.headers = headers;
+						return ajax(url, options);
+					}
+				});
 
             form.on('submit(login)', function (data) {
                 var loadi = layer.load();

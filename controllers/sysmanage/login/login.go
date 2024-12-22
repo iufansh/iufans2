@@ -22,7 +22,7 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
-	logs.Warn("Login Get from ip:", c.Ctx.Input.IP())
+	//logs.Warn("Login Get from ip:", c.Ctx.Input.IP())
 	if web.BConfig.RunMode == "dev" {
 		c.Data["username"] = "admin"
 		c.Data["pass"] = "111111"
@@ -34,8 +34,7 @@ func (c *LoginController) Get() {
 	}
 	c.Data["year"] = time.Now().Year()
 	c.Data["siteName"] = GetSiteConfigValue(Scname)
-	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	
+
 	c.Data["urlLoginPost"] = c.URLFor("LoginController.Post")
 	c.Data["urlLoginVerify"] = c.URLFor("LoginController.LoginVerify")
 
@@ -50,9 +49,7 @@ func (c *LoginController) Get() {
 		tpl = tplLoginV1
 	}
 
-	if t, err := template.New("tplLogin.tpl").Funcs(map[string]interface{}{ // 这个模式加载的模板，必须在这里注册模板函数，无法使用内置的模板函数
-		"create_captcha": GetCpt().CreateCaptchaHTML,
-	}).Parse(tpl); err != nil {
+	if t, err := template.New("tplLogin.tpl").Parse(tpl); err != nil {
 		logs.Error("template Parse err", err)
 	} else {
 		if err := t.Execute(c.Ctx.ResponseWriter, c.Data); err != nil {
@@ -65,7 +62,7 @@ func (c *LoginController) Post() {
 	ret := make(map[string]interface{})
 	username := c.GetString("username")
 	pwd := c.GetString("password")
-	logs.Info("Login username=", username, "password=", pwd)
+	//logs.Info("Login username=", username, "password=", pwd)
 	defer func() {
 		logs.Warn("LoginRequest from Ip:", c.Ctx.Input.IP(), "账号:", username, "结果:", ret["msg"])
 		c.Data["json"] = &ret
@@ -77,10 +74,6 @@ func (c *LoginController) Post() {
 	}
 	if pwd == "" {
 		c.Redirect(c.URLFor("LoginController.Get"), http.StatusFound)
-		return
-	}
-	if web.BConfig.RunMode == "prod" && !GetCpt().VerifyReq(c.Ctx.Request) {
-		ret["msg"] = "验证码错误"
 		return
 	}
 	o := orm.NewOrm()
