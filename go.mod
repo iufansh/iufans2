@@ -10,7 +10,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/iufansh/iuplugins v0.0.0-20241218131452-751ca41695ae
 	github.com/iufansh/iutils v0.0.0-20241218062802-3ba9a4f95a94
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible
+	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/pkg/errors v0.9.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
