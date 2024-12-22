@@ -337,9 +337,9 @@ func initDbData() error {
 			{Id: 1025, RoleId: 10, PermissionId: 25},
 			{Id: 1026, RoleId: 10, PermissionId: 26},
 
-			{Id: 1090, RoleId: 10, PermissionId: 90},
-			{Id: 1091, RoleId: 10, PermissionId: 91},
-			{Id: 1092, RoleId: 10, PermissionId: 92},
+			//{Id: 1090, RoleId: 10, PermissionId: 90},
+			//{Id: 1091, RoleId: 10, PermissionId: 91},
+			//{Id: 1092, RoleId: 10, PermissionId: 92},
 		}
 		for _, v := range rolePermissions {
 			if _, _, err := txOrm.ReadOrCreate(&v, "Id"); err != nil {
