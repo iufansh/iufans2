@@ -99,17 +99,17 @@ func initDbData() error {
 		pwd2 := utils.Md5(utils.Md5("111111"), utils.Pubsalt, "17b007bdb8e7af362a1147b0ke7277c9")
 		// 管理员
 		admins := []Admin{
-			{Id: 1, Enabled: 1, Locked: 0, IsSystem: 1, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1167bcce7277c9", Name: "超级管理员", Password: pwd1, Username: "superadmin", LoginVerify: 0},
-			{Id: 2, Enabled: 1, Locked: 0, IsSystem: 0, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1147b0ke7277c9", Name: "管理员", Password: pwd2, Username: "admin", LoginVerify: 0},
+			{Id: 1, Enabled: 1, Locked: 0, IsSystem: 1, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1167bcce7277c9", Name: "超级管理员", Password: pwd1, Username: "superadmin", MainRoleId: 1, LoginVerify: 0},
+			{Id: 2, Enabled: 1, Locked: 0, IsSystem: 0, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1147b0ke7277c9", Name: "管理员", Password: pwd2, Username: "admin", MainRoleId: 10, LoginVerify: 0},
 		}
 		if num, err := txOrm.InsertMulti(len(admins), admins); err != nil {
 			logs.Warn("Init Admin data success num:", num, " error:", err)
 		}
 		// 角色
 		roles := []Role{
-			{Id: 1, Enabled: 1, Description: "后台管理最高权限", IsSystem: 1, Name: "超级管理员"},
+			{Id: 1, Enabled: 1, Description: "后台管理最高权限", IsSystem: 1, Name: "超级管理员", HomeUrl: ""},
 			//{Id: 2, Enabled: 1, Description: "后台总管理权限", IsSystem: 0, Name: "后台总管理员"},
-			{Id: 10, Enabled: 1, Description: "普通管理权限", IsSystem: 0, Name: "普通管理员", IsOrg: 1},
+			{Id: 10, Enabled: 1, Description: "普通管理权限", IsSystem: 0, Name: "普通管理员", IsOrg: 1, HomeUrl: ""},
 		}
 		if num, err := txOrm.InsertMulti(len(roles), roles); err != nil {
 			logs.Warn("Init Role data success num:", num, " error", err)
