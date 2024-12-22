@@ -54,8 +54,7 @@ var tplBase = `
         </div>
         <ul class="layui-nav" style="position: absolute;top: 0;right: 20px;background: none;">
             <li class="layui-nav-item layui-hide-xs iframe-refresh"><a class="layui-icon layui-icon-refresh" href="javascript:void(0);">&nbsp;刷新</a></li>
-            <li class="layui-nav-item layui-hide-xs"><a class="layui-icon layui-icon-website" href="/" target="_blank">&nbsp;前台首页</a></li>
-            <!--<li class="layui-nav-item"><a href="" data-url="{:url('admin/system/clear')}" id="clear-cache">清除缓存</a></li>-->
+            <!--<li class="layui-nav-item layui-hide-xs"><a class="layui-icon layui-icon-website" href="/" target="_blank">&nbsp;前台首页</a></li>-->
             <li class="layui-nav-item">
                 <a class="layui-icon layui-icon-username" href="javascript:;">&nbsp;{{.loginAdminName}}</a>
                 <dl class="layui-nav-child">
@@ -74,7 +73,7 @@ var tplBase = `
                     </a>
                 </li>
                 <li class="layui-nav-item">
-                    <a class="nav-base-iframe" href='{{urlfor "SysIndexController.Get"}}'>
+                    <a class="nav-base-iframe" href='{{.homeUrl}}'>
                         <i class="layui-icon">&#xe68e;</i><span class="main-nav-title">系统信息</span>
                     </a>
                 </li>
@@ -102,7 +101,7 @@ var tplBase = `
         </div>
     </div>
     <div class="layui-body layui-body-spread" id="main-body">
-        <iframe id="base-iframe" src="{{urlfor "SysIndexController.Get"}}" frameborder="0" class="base-iframe"></iframe>
+        <iframe id="base-iframe" src="{{.homeUrl}}" frameborder="0" class="base-iframe"></iframe>
     </div>
 </div>
 <script src="{{.static_url}}/static/layui/layui.js"></script>

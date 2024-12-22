@@ -24,6 +24,7 @@ var tplIndex = `
 								<th>ID</th>
 								<th>角色名称</th>
 								<th>描述</th>
+								<th>默认首页</th>
 								<th>状态</th>
 								<th>创建时间</th>
 								<th>操作</th>
@@ -35,6 +36,7 @@ var tplIndex = `
 									<td>{{$vo.Id}}</td>
 									<td>{{$vo.Name}}</td>
 									<td>{{$vo.Description}}</td>
+									<td>{{$vo.HomeUrl}}</td>
 									<td>{{if eq $vo.Enabled 1}}<span class="layui-badge layui-bg-green">启用</span>{{else}}<span class="layui-badge layui-bg-red">禁用</span>{{end}}</td>
 									<td>{{date $vo.CreateDate "Y-m-d H:i:s"}}</td>
 									<td>

@@ -65,7 +65,17 @@ var tplAdd = `
 								</div>
 							</div>
 							<div class="layui-form-item">
-								<label class="layui-form-label">所属权限组</label>
+								<label class="layui-form-label">主权限</label>
+								<div class="layui-input-block">
+									{{range $index, $vo := .roleList}}
+										<input type="radio" name="MainRoleId" value="{{$vo.Id}}" title="{{$vo.Name}}" checked="checked">
+									{{else}}
+										<label class="layui-form-label">未配置角色</label>
+									{{end}}
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">子权限</label>
 								<div class="layui-input-block">
 								{{range $index, $vo := .roleList}}
 									<input type="checkbox" name="roles" title="{{$vo.Name}}" value="{{$vo.Id}}">

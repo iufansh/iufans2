@@ -18,6 +18,7 @@ type Role struct {
 	IsSystem    int8      // 是否内置(内置不可选择)
 	Name        string    // 名称
 	IsOrg       int8      // 是否适用组织
+	HomeUrl     string    `orm:"null"` // 登陆后默认进入的首页地址，支持① url地址格式，如：/home；② beego url地址，如：HomeController.Get
 }
 
 func init() {

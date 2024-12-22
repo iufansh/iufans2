@@ -81,7 +81,7 @@ func (c *BaseController) GetPaginateParam() (limit, page int, offset int64) {
 	return
 }
 
-// Deprecated TODO 改方法废弃
+// Deprecated TODO 该方法废弃
 func Retjson(ctx *context.Context, msg *string, code *int, data ...interface{}) {
 	ret := make(map[string]interface{})
 	ret["code"] = code
@@ -184,6 +184,24 @@ func (c *BaseIndexController) Get() {
 		c.Data["mainMenuList"] = mainMenuList
 		c.Data["secdMenuMap"] = secdMenuMap
 	}
+	// 获取权限配置的首页
+	var homeUrl string
+	var admin Admin
+	if err := o.QueryTable(new(Admin)).Filter("id", c.LoginAdminId).One(&admin, "MainRoleId"); err == nil {
+		var role Role
+		if err := o.QueryTable(new(Role)).Filter("id", admin.MainRoleId).One(&role, "HomeUrl"); err == nil {
+			homeUrl = role.HomeUrl
+		}
+	}
+	if homeUrl != "" {
+		if ctrlUrl := web.URLFor(homeUrl); ctrlUrl != "" {
+			homeUrl = ctrlUrl
+		}
+	} else {
+		homeUrl = web.URLFor("SysIndexController.Get") // 未配置主页的，用默认
+	}
+	c.Data["homeUrl"] = homeUrl
+	logs.Info("homeUrl:", homeUrl)
 
 	var domainUri, _ = config.String("domainuri")
 	var staticUrl, _ = config.String("staticurl")

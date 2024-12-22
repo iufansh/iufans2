@@ -91,15 +91,16 @@ func initDbData() error {
 	logs.Info("Init frame data")
 	err := o.DoTx(func(ctx context.Context, txOrm orm.TxOrmer) error {
 		// 系统配置
-		sc := SiteConfig{Id: 1, Code: "NAME", Value: "公司名称", IsSystem: 1}
-		if _, err := txOrm.Insert(&sc); err != nil {
+		sc := SiteConfig{Id: 1, Code: "NAME", Value: "管理系统", IsSystem: 1}
+		if _, err := o.Insert(&sc); err != nil {
 			logs.Warn("Init SiteConfig data error", err)
 		}
-		pwd := utils.Md5(utils.Md5("111111"), utils.Pubsalt, "17b007bdb8e7af362a1167bcce7277c9")
+		pwd1 := utils.Md5(utils.Md5("151210"), utils.Pubsalt, "17b007bdb8e7af362a1167bcce7277c9")
+		pwd2 := utils.Md5(utils.Md5("111111"), utils.Pubsalt, "17b007bdb8e7af362a1147b0ke7277c9")
 		// 管理员
 		admins := []Admin{
-			{Id: 1, Enabled: 1, Locked: 0, IsSystem: 1, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1167bcce7277c9", Name: "超级管理员", Password: pwd, Username: "superadmin", LoginVerify: 0},
-			{Id: 2, Enabled: 1, Locked: 0, IsSystem: 0, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1167bcce7277c9", Name: "管理员", Password: pwd, Username: "admin", LoginVerify: 0},
+			{Id: 1, Enabled: 1, Locked: 0, IsSystem: 1, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1167bcce7277c9", Name: "超级管理员", Password: pwd1, Username: "superadmin", LoginVerify: 0},
+			{Id: 2, Enabled: 1, Locked: 0, IsSystem: 0, LoginFailureCount: 0, Salt: "17b007bdb8e7af362a1147b0ke7277c9", Name: "管理员", Password: pwd2, Username: "admin", LoginVerify: 0},
 		}
 		if num, err := txOrm.InsertMulti(len(admins), admins); err != nil {
 			logs.Warn("Init Admin data success num:", num, " error:", err)
@@ -107,7 +108,7 @@ func initDbData() error {
 		// 角色
 		roles := []Role{
 			{Id: 1, Enabled: 1, Description: "后台管理最高权限", IsSystem: 1, Name: "超级管理员"},
-			{Id: 2, Enabled: 1, Description: "后台总管理权限", IsSystem: 0, Name: "后台总管理员"},
+			//{Id: 2, Enabled: 1, Description: "后台总管理权限", IsSystem: 0, Name: "后台总管理员"},
 			{Id: 10, Enabled: 1, Description: "普通管理权限", IsSystem: 0, Name: "普通管理员", IsOrg: 1},
 		}
 		if num, err := txOrm.InsertMulti(len(roles), roles); err != nil {
@@ -116,7 +117,7 @@ func initDbData() error {
 		// 管理员--角色关联
 		adminRoles := []AdminRole{
 			{Id: 1, AdminId: 1, RoleId: 1},
-			{Id: 2, AdminId: 2, RoleId: 2},
+			//{Id: 2, AdminId: 2, RoleId: 2},
 			{Id: 10, AdminId: 2, RoleId: 10},
 		}
 		if num, err := txOrm.InsertMulti(len(adminRoles), adminRoles); err != nil {

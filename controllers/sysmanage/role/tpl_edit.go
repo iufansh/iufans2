@@ -34,6 +34,12 @@ var tplEdit = `
 								</div>
 							</div>
 							<div class="layui-form-item">
+								<label class="layui-form-label">默认首页</label>
+								<div class="layui-input-block">
+									<input type="text" name="HomeUrl" value="{{.data.HomeUrl}}" placeholder="登陆后显示的首页，格式可 /home或HomeController.Get" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
 								<label class="layui-form-label">状态</label>
 								<div class="layui-input-block">
 									<input type="radio" name="Enabled" value="1" title="启用" {{if eq .data.Enabled 1}}checked="checked"{{end}}>

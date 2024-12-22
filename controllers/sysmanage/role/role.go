@@ -205,7 +205,7 @@ func (c *RoleEditController) Post() {
 		msg = "参数异常"
 		return
 	}
-	cols := []string{"Name", "Description", "Enabled", "ModifyDate"}
+	cols := []string{"Name", "Description", "HomeUrl", "Enabled", "ModifyDate"}
 	role.Modifior = c.LoginAdminId
 	om := orm.NewOrm()
 	om.DoTx(func(ctx context.Context, txOrm orm.TxOrmer) error {

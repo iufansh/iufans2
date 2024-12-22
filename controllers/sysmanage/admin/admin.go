@@ -238,10 +238,10 @@ func (c *AdminAddController) Post() {
 		return
 	}
 	roles := c.GetStrings("roles")
-	if len(roles) == 0 {
-		msg = "请选择所属权限组"
-		return
-	}
+	//if len(roles) == 0 {
+	//	msg = "请选择所属权限组"
+	//	return
+	//}
 	om := orm.NewOrm()
 	if c.LoginAdminOrgId != 0 {
 		if admin.OrgId == 0 {
@@ -277,10 +277,19 @@ func (c *AdminAddController) Post() {
 			return err
 		} else if created {
 			adminRoles := make([]AdminRole, 0)
-			for _, v := range roles {
-				roleId, _ := strconv.ParseInt(v, 10, 64)
-				ar := AdminRole{AdminId: admin.Id, RoleId: roleId}
-				adminRoles = append(adminRoles, ar)
+			// 主权限角色也要加
+			arMain := AdminRole{AdminId: admin.Id, RoleId: admin.MainRoleId}
+			adminRoles = append(adminRoles, arMain)
+			// 子权限角色
+			if len(roles) > 0 {
+				for _, v := range roles {
+					roleId, _ := strconv.ParseInt(v, 10, 64)
+					if roleId == admin.MainRoleId {
+						continue // 上面已经加了，这里过滤点，免得重复加
+					}
+					ar := AdminRole{AdminId: admin.Id, RoleId: roleId}
+					adminRoles = append(adminRoles, ar)
+				}
 			}
 			if _, err := txOrm.InsertMulti(len(adminRoles), adminRoles); err != nil {
 				msg = "添加失败"
@@ -328,6 +337,9 @@ func (c *AdminEditController) Get() {
 		o.QueryTable(new(AdminRole)).Filter("AdminId", id).ValuesFlat(&arList, "RoleId")
 		for _, v := range arList {
 			arId, ok := v.(int64)
+			if arId == admin.MainRoleId {
+				continue // 过滤掉主权限
+			}
 			if ok {
 				arMap[arId] = true
 			}
@@ -378,7 +390,7 @@ func (c *AdminEditController) Post() {
 			}
 		}
 	}
-	cols := []string{"Name", "Enabled", "Mobile", "ModifyDate"}
+	cols := []string{"Name", "Enabled", "Mobile", "MainRoleId", "ModifyDate"}
 	isChangePwd := false
 	if admin.Password != "" {
 		salt := GetGuid()
@@ -400,21 +412,28 @@ func (c *AdminEditController) Post() {
 				logs.Error("Update admin error 2", err)
 				return err
 			}
+			adminRoles := make([]AdminRole, 0)
+			// 主权限角色也要加
+			arMain := AdminRole{AdminId: admin.Id, RoleId: admin.MainRoleId}
+			adminRoles = append(adminRoles, arMain)
 			// 重新插入角色
 			if len(roles) > 0 {
-				adminRoles := make([]AdminRole, 0)
+				// 子角色
 				for _, v := range roles {
 					roleId, _ := strconv.ParseInt(v, 10, 64)
+					if roleId == admin.MainRoleId {
+						continue // 上面已经加了，这里过滤点，免得重复加
+					}
 					ar := AdminRole{AdminId: admin.Id, RoleId: roleId}
 					adminRoles = append(adminRoles, ar)
 				}
-
-				if _, err := txOrm.InsertMulti(len(adminRoles), adminRoles); err != nil {
-					msg = "更新失败"
-					logs.Error("Update admin error 3", err)
-					return err
-				}
 			}
+			if _, err := txOrm.InsertMulti(len(adminRoles), adminRoles); err != nil {
+				msg = "更新失败"
+				logs.Error("Update admin error 3", err)
+				return err
+			}
+			
 			// 如修改了密码，则重置登录，让用户必须重新登录
 			if isChangePwd {
 				DelCache(fmt.Sprintf("loginAdminId%d", admin.Id))

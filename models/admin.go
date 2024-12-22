@@ -31,6 +31,7 @@ type Admin struct {
 	Mobile            string    `orm:"null"`             // 手机
 	LoginVerify       int8      // 验证状态(0:无验证;1:短信验证；2：谷歌安全码验证;)
 	GaSecret          string    `orm:"null"` // 谷歌验证秘钥
+	MainRoleId        int64     // 主权限角色id，目前用于登陆后获取首页地址
 }
 
 func init() {

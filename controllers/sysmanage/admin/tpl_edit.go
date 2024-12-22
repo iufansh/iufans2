@@ -59,6 +59,16 @@ var tplEdit = `
 								</div>
 							</div>
 							<div class="layui-form-item">
+								<label class="layui-form-label">主权限</label>
+								<div class="layui-input-block">
+									{{range $index, $vo := .roleList}}
+										<input type="radio" name="MainRoleId" value="{{$vo.Id}}" title="{{$vo.Name}}" {{if eq $.data.MainRoleId $vo.Id}}checked="checked"{{end}}>
+									{{else}}
+										<label class="layui-form-label">未配置角色</label>
+									{{end}}
+								</div>
+							</div>
+							<div class="layui-form-item">
 								<label class="layui-form-label">所属权限组</label>
 								<div class="layui-input-block">
 								{{range $index, $vo := .roleList}}
