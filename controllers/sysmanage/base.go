@@ -60,6 +60,9 @@ func (c *BaseController) Prepare() {
 // 获取URI上的id
 func (c *BaseController) GetModelId() int64 {
 	idStr := c.Ctx.Input.Param(":id")
+	if idStr == "" {
+		idStr = c.GetString("id")
+	}
 	id, _ := strconv.ParseInt(idStr, 0, 64)
 	return id
 }
